@@ -2,34 +2,19 @@
 
 declare(strict_types=1);
 
+use Everully\LaravelOnSteroids\Tests\Support\CopyStringEnum;
 use Everully\LaravelOnSteroids\Tests\Support\IntegerEnum;
 use Everully\LaravelOnSteroids\Tests\Support\StringEnum;
 use Illuminate\Support\Collection;
 
-it('returns true if provided object is equal to main object', function () {
+it('checks if provided object or string are equal to main object', function () {
     // Act & Assert
-    expect(
-        StringEnum::A->equals(StringEnum::A)
-    )->toBeTrue();
-});
+    expect(StringEnum::A->equals(StringEnum::A))->toBeTrue()
+        ->and(StringEnum::A->equals('a'))->toBeTrue()
+        ->and(StringEnum::A->equals(StringEnum::B))->toBeFalse()
+        ->and(StringEnum::A->equals(CopyStringEnum::A))->toBeFalse()
+        ->and(StringEnum::A->equals('b'))->toBeFalse();
 
-it('returns false if provided object is not equal to main object', function () {
-    expect(
-        StringEnum::A->equals(StringEnum::B)
-    )->toBeFalse();
-});
-
-it('returns true if provided string is equal to main object', function () {
-    // Act & Assert
-    expect(
-        StringEnum::A->equals('a')
-    )->toBeTrue();
-});
-
-it('returns false if provided string is not equal to main object', function () {
-    expect(
-        StringEnum::A->equals('b')
-    )->toBeFalse();
 });
 
 it('returns an array of values', function () {
@@ -110,4 +95,12 @@ it('returns empty collection if non of strings are valid', function () {
         StringEnum::collect(['invalid'])
     )->toBeInstanceOf(Collection::class)
         ->toBeEmpty();
+});
+
+it('checks if enum has provided string or object', function () {
+    // Act & Assert
+    expect(StringEnum::has('a'))->toBeTrue()
+        ->and(StringEnum::has(StringEnum::A))->toBeTrue()
+        ->and(StringEnum::has('invalid'))->toBeFalse()
+        ->and(StringEnum::has(CopyStringEnum::A))->toBeFalse();
 });

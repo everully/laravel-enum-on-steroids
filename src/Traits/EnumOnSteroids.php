@@ -14,22 +14,24 @@ trait EnumOnSteroids
 {
     public function equals(string|BackedEnum $value): bool
     {
-        return $value instanceof BackedEnum
-            ? $this->value === $value->value
-            : $this->value === $value;
+        return match (true) {
+            $value instanceof self => $this->value === $value->value,
+            is_string($value) => $this->value === $value,
+            default => false,
+        };
     }
 
     public static function values(): array
     {
         return array_map(
-            fn(BackedEnum $enum) => $enum->value, static::cases()
+            fn (BackedEnum $enum) => $enum->value, static::cases()
         );
     }
 
     public static function names(): array
     {
         return array_map(
-            fn(BackedEnum $enum) => $enum->name, static::cases()
+            fn (BackedEnum $enum) => $enum->name, static::cases()
         );
     }
 
@@ -41,8 +43,17 @@ trait EnumOnSteroids
     public static function collect(array $items): Collection
     {
         return collect($items)
-            ->map(fn(string|BackedEnum $item) => self::tryFromItem($item))
+            ->map(fn (string|BackedEnum $item) => self::tryFromItem($item))
             ->filter();
+    }
+
+    public static function has(string|BackedEnum $item): bool
+    {
+        return match (true) {
+            $item instanceof self => true,
+            is_string($item) => boolval(static::tryFrom($item)),
+            default => false,
+        };
     }
 
     protected static function tryFromItem(string|BackedEnum $item): ?self
