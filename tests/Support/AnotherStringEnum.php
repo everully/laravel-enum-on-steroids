@@ -6,7 +6,7 @@ namespace Everully\LaravelEnumOnSteroids\Tests\Support;
 
 use Everully\LaravelEnumOnSteroids\EnumOnSteroids;
 
-enum CopyStringEnum: string
+enum AnotherStringEnum: string
 {
     use EnumOnSteroids;
 

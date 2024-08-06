@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Everully\LaravelEnumOnSteroids\Tests\Support\CopyStringEnum;
+use Everully\LaravelEnumOnSteroids\Tests\Support\AnotherStringEnum;
 use Everully\LaravelEnumOnSteroids\Tests\Support\IntegerEnum;
 use Everully\LaravelEnumOnSteroids\Tests\Support\StringEnum;
 use Illuminate\Support\Collection;
@@ -12,7 +12,7 @@ it('checks if provided object or string are equal to main object', function () {
     expect(StringEnum::A->equals(StringEnum::A))->toBeTrue()
         ->and(StringEnum::A->equals('a'))->toBeTrue()
         ->and(StringEnum::A->equals(StringEnum::B))->toBeFalse()
-        ->and(StringEnum::A->equals(CopyStringEnum::A))->toBeFalse()
+        ->and(StringEnum::A->equals(AnotherStringEnum::A))->toBeFalse()
         ->and(StringEnum::A->equals('b'))->toBeFalse();
 
 });
@@ -102,15 +102,15 @@ it('checks if enum has provided string or object', function () {
     expect(StringEnum::has('a'))->toBeTrue()
         ->and(StringEnum::has(StringEnum::A))->toBeTrue()
         ->and(StringEnum::has('invalid'))->toBeFalse()
-        ->and(StringEnum::has(CopyStringEnum::A))->toBeFalse();
+        ->and(StringEnum::has(AnotherStringEnum::A))->toBeFalse();
 });
 
 it('check if enum has any of the provided strings or objects', function () {
     // Act & Assert
     expect(StringEnum::hasAny(['a', 'invalid']))->toBeTrue()
-        ->and(StringEnum::hasAny([StringEnum::A, CopyStringEnum::A]))->toBeTrue()
+        ->and(StringEnum::hasAny([StringEnum::A, AnotherStringEnum::A]))->toBeTrue()
         ->and(StringEnum::hasAny(['invalid', 'invalid2']))->toBeFalse()
-        ->and(StringEnum::hasAny([CopyStringEnum::A, CopyStringEnum::B]))->toBeFalse();
+        ->and(StringEnum::hasAny([AnotherStringEnum::A, AnotherStringEnum::B]))->toBeFalse();
 });
 
 it('check if enum has all of the provided strings or objects', function () {
@@ -119,6 +119,6 @@ it('check if enum has all of the provided strings or objects', function () {
         ->and(StringEnum::hasAll([StringEnum::A, StringEnum::B]))->toBeTrue()
         ->and(StringEnum::hasAll(['a', 'invalid']))->toBeFalse()
         ->and(StringEnum::hasAll(['invalid', 'invalid2']))->toBeFalse()
-        ->and(StringEnum::hasAll([StringEnum::A, CopyStringEnum::A]))->toBeFalse()
-        ->and(StringEnum::hasAll([CopyStringEnum::A, CopyStringEnum::B]))->toBeFalse();
+        ->and(StringEnum::hasAll([StringEnum::A, AnotherStringEnum::A]))->toBeFalse()
+        ->and(StringEnum::hasAll([AnotherStringEnum::A, AnotherStringEnum::B]))->toBeFalse();
 });

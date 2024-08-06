@@ -79,3 +79,30 @@ StringEnum::collect(['a', 'invalid']);
 StringEnum::collect([StringEnum::A, AnotherEnum::B]);
 // Only contains 'a'
 ```
+
+### Has
+Returns true if the enum has the provided value.
+```php
+StringEnum::has('a'); // true
+StringEnum::has(StringEnum::A); // true
+StringEnum::has('invalid'); // false
+StringEnum::has(AnotherEnum::A); // false
+```
+
+### Has any
+Returns true if the enum has any of the provided values.
+```php
+StringEnum::hasAny(['a', 'invalid']); // true
+StringEnum::hasAny([StringEnum::A, AnotherEnum::A]); // true
+StringEnum::hasAny(['invalid', 'invalid2']); // false
+StringEnum::hasAny([CopyStringEnum::A, CopyStringEnum::A]); // false
+```
+
+### Has all
+Returns true if the enum has all the provided values.
+```php
+StringEnum::hasAny(['a', 'b']); // true
+StringEnum::hasAny([StringEnum::A, AnotherEnum::A]); // true
+StringEnum::hasAny(['a', 'invalid']); // false
+StringEnum::hasAny([StringEnum::A, CopyStringEnum::A]); // false
+```
