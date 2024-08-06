@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Everully\LaravelOnSteroids\Traits;
+namespace Everully\LaravelEnumOnSteroids;
 
 use BackedEnum;
 use Illuminate\Support\Collection;
@@ -54,6 +54,20 @@ trait EnumOnSteroids
             is_string($item) => boolval(static::tryFrom($item)),
             default => false,
         };
+    }
+
+    public static function hasAny(array $items): bool
+    {
+        return collect($items)->contains(
+            fn (string|BackedEnum $item) => static::has($item)
+        );
+    }
+
+    public static function hasAll(array $items): bool
+    {
+        return collect($items)->every(
+            fn (string|BackedEnum $item) => static::has($item)
+        );
     }
 
     protected static function tryFromItem(string|BackedEnum $item): ?self

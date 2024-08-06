@@ -1,21 +1,26 @@
 {
-    "name": "everully/laravel-on-steroids",
-    "description": "Components for Laravel",
+    "name": "everully/laravel-enum-on-steroids",
+    "description": "This package provides Enum trait to speed up the development of Laravel applications.",
     "keywords" : [
         "everully",
         "laravel",
-        "laravel-on-steroids"
+        "laravel-on-steroids",
+        "enums",
+        "php",
+        "Laravel 9",
+        "Laravel 10",
+        "Laravel 11"
     ],
-    "homepage" : "https://github.com/everully/laravel-on-steroids",
+    "homepage" : "https://github.com/everully/everully/laravel-enum-on-steroids",
     "license" : "MIT",
     "autoload": {
         "psr-4": {
-            "Everully\\LaravelOnSteroids\\": "src/"
+            "Everully\\LaravelEnumOnSteroids\\": "src/"
         }
     },
     "autoload-dev" : {
         "psr-4" : {
-            "Everully\\LaravelOnSteroids\\Tests\\" : "tests/"
+            "Everully\\LaravelEnumOnSteroids\\Tests\\" : "tests/"
         }
     },
     "authors": [

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Everully\LaravelOnSteroids\Tests;
+namespace Everully\LaravelEnumOnSteroids\Tests;
 
 use PHPUnit\Framework\TestCase as BaseTestCase;
 

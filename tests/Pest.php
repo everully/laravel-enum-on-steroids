@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Everully\LaravelOnSteroids\Tests\TestCase;
+use Everully\LaravelEnumOnSteroids\Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------

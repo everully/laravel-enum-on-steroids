@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Everully\LaravelOnSteroids\Tests\Support\CopyStringEnum;
-use Everully\LaravelOnSteroids\Tests\Support\IntegerEnum;
-use Everully\LaravelOnSteroids\Tests\Support\StringEnum;
+use Everully\LaravelEnumOnSteroids\Tests\Support\CopyStringEnum;
+use Everully\LaravelEnumOnSteroids\Tests\Support\IntegerEnum;
+use Everully\LaravelEnumOnSteroids\Tests\Support\StringEnum;
 use Illuminate\Support\Collection;
 
 it('checks if provided object or string are equal to main object', function () {
@@ -103,4 +103,22 @@ it('checks if enum has provided string or object', function () {
         ->and(StringEnum::has(StringEnum::A))->toBeTrue()
         ->and(StringEnum::has('invalid'))->toBeFalse()
         ->and(StringEnum::has(CopyStringEnum::A))->toBeFalse();
+});
+
+it('check if enum has any of the provided strings or objects', function () {
+    // Act & Assert
+    expect(StringEnum::hasAny(['a', 'invalid']))->toBeTrue()
+        ->and(StringEnum::hasAny([StringEnum::A, CopyStringEnum::A]))->toBeTrue()
+        ->and(StringEnum::hasAny(['invalid', 'invalid2']))->toBeFalse()
+        ->and(StringEnum::hasAny([CopyStringEnum::A, CopyStringEnum::B]))->toBeFalse();
+});
+
+it('check if enum has all of the provided strings or objects', function () {
+    // Act & Assert
+    expect(StringEnum::hasAll(['a', 'b']))->toBeTrue()
+        ->and(StringEnum::hasAll([StringEnum::A, StringEnum::B]))->toBeTrue()
+        ->and(StringEnum::hasAll(['a', 'invalid']))->toBeFalse()
+        ->and(StringEnum::hasAll(['invalid', 'invalid2']))->toBeFalse()
+        ->and(StringEnum::hasAll([StringEnum::A, CopyStringEnum::A]))->toBeFalse()
+        ->and(StringEnum::hasAll([CopyStringEnum::A, CopyStringEnum::B]))->toBeFalse();
 });

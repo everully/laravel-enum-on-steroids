@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Everully\LaravelOnSteroids\Tests\Support;
+namespace Everully\LaravelEnumOnSteroids\Tests\Support;
 
-use Everully\LaravelOnSteroids\Traits\EnumOnSteroids;
+use Everully\LaravelEnumOnSteroids\EnumOnSteroids;
 
 enum CopyStringEnum: string
 {
