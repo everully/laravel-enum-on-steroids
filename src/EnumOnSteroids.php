@@ -12,13 +12,24 @@ use Illuminate\Support\Collection;
  */
 trait EnumOnSteroids
 {
-    public function equals(string|BackedEnum $value): bool
+    public function equals(int|string|BackedEnum $value): bool
     {
         return match (true) {
             $value instanceof self => $this->value === $value->value,
             is_string($value) => $this->value === $value,
             default => false,
         };
+    }
+
+    public function oneOf(array|int|string|BackedEnum $items): bool
+    {
+        foreach ((array) $items as $item) {
+            if ($this->equals($item)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function values(): array
@@ -40,14 +51,20 @@ trait EnumOnSteroids
         return collect(static::cases());
     }
 
-    public static function collect(array $items): Collection
+    public static function collect(iterable $items): Collection
     {
-        return collect($items)
-            ->map(fn (string|BackedEnum $item) => self::tryFromItem($item))
-            ->filter();
+        $enums = [];
+        foreach ($items as $item) {
+            $enum = static::tryFromItem($item);
+            if ($enum !== null) {
+                $enums[] = $enum;
+            }
+        }
+
+        return collect($enums);
     }
 
-    public static function has(string|BackedEnum $item): bool
+    public static function has(int|string|BackedEnum $item): bool
     {
         return match (true) {
             $item instanceof self => true,
@@ -56,21 +73,34 @@ trait EnumOnSteroids
         };
     }
 
-    public static function hasAny(array $items): bool
+    public static function hasAny(iterable $items): bool
     {
-        return collect($items)->contains(
-            fn (string|BackedEnum $item) => static::has($item)
-        );
+        foreach ($items as $item) {
+            if (static::has($item)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public static function hasAll(array $items): bool
+    public static function hasAll(iterable $items): bool
     {
-        return collect($items)->every(
-            fn (string|BackedEnum $item) => static::has($item)
-        );
+        foreach ($items as $item) {
+            if ( ! static::has($item)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    protected static function tryFromItem(string|BackedEnum $item): ?self
+    public static function fromOrDefault(int|string $value, ?self $default = null): ?static
+    {
+        return static::tryFrom($value) ?? $default;
+    }
+
+    protected static function tryFromItem(int|string|BackedEnum $item): ?static
     {
         return match (true) {
             $item instanceof self => $item,
